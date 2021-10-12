@@ -1,7 +1,3 @@
-#!/usr/bin/python3
-# roslaunch pursue pursue.launch distance_tolerance:=.3 pursue_step_rate:=1
-from time import sleep
-
 import rospy
 from geometry_msgs.msg import Twist
 

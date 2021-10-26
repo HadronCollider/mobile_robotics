@@ -1,0 +1,24 @@
+<launch>
+
+    <arg name="input_scan_name" default="base_scan" />
+    <arg name="output_scan_name" default="scan_filtered" />
+    <arg name="map_scale" default="10" />
+    <arg name="rate" default="1" />
+    
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter"
+        output="screen">
+        <rosparam command="load" file="$(find lab1)/config/filter_config.yaml" />
+        <remap from="scan" to="$(arg input_scan_name)" />
+        <remap from="scan_filtered" to="$(arg output_scan_name)" />
+    </node>
+
+    <node name="visualisation" pkg="rviz"
+        type="rviz" args="-d $(find lab1)/config/config.rviz"
+    />
+
+    <node name="map_creator" pkg="lab1" type="node.py" output="screen">
+        <param name="scan_topic" value="$(arg output_scan_name)" />
+        <param name="map_scale" value="$(arg map_scale)" type="int" />
+        <param name="rate" value="$(arg rate)" type="int" />
+    </node>
+</launch>
